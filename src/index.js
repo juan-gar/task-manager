@@ -37,17 +37,63 @@ app.post('/tasks', (req,res) => {
 
 //Read operations
 
+//Users
+
 app.get('/users', (req,res) => {
-    User.find({
-        name: "Juan"
-    })
+    User.find({})
     .then( (users) => {
         res.send(users)
     })
-    .catch( () => {
-
+    .catch( (e) => {
+        res.status(500).send()
     })
 })
+
+app.get('/users/:id', (req,res) => {
+    const _id = req.params.id
+    User.findById(_id)
+
+    .then( (user) => {
+        if(!user) {
+            res.status(404).send()
+        }
+        
+        res.send(user)
+    })
+    .catch( (e) => {
+        res.status(500).send(e)
+    })
+})
+
+
+//Tasks
+
+app.get('/tasks', (req,res) => {
+    Task.find({})
+    .then( (tasks) => {
+        res.send(tasks)
+    })
+    .catch( (e) => {
+        res.status(500).send(e)
+    })
+})
+
+app.get('/tasks/:id', (req,res) => {
+    const id = req.params.id
+    
+    Task.findById(id)
+    .then( (task) => {
+        if(!task) {
+            res.status(404).send()
+        }
+
+        res.status(200).send(task)
+    })
+    .catch( (e) => {
+        res.status(500).send(e)
+    })
+})
+
 
 
 
