@@ -11,121 +11,139 @@ app.use(express.json())
 
 //Create operations
 
-app.post('/users', (req,res) => {
+app.post('/users', async (req,res) => {
     const user = new User(req.body)
 
-    user.save()
-    .then( () => {
+    try{
+        await user.save()
         res.status(201).send(user)
-    })
-    .catch( (e) => {
-        res.status(400).send(e.message)
-    })
+    } catch (e) {
+        res.status(400).send(e)
+    }
+
 })
 
-app.post('/tasks', (req,res) => {
+
+app.post('/tasks', async (req,res) => {
     const task = new Task(req.body)
 
-    task.save()
-    .then( () => {
+    try {
+        await task.save()
         res.status(201).send(task)
-    })
-    .catch( (e) => {
-        res.status(400).send(e.message)
-    })
+    } catch (e) {
+        res.status(400).send(e)
+    }
+
+    // task.save()
+    // .then( () => {
+    //     res.status(201).send(task)
+    // })
+    // .catch( (e) => {
+    //     res.status(400).send(e.message)
+    // })
 })
 
 //Read operations
 
 //Users
 
-app.get('/users', (req,res) => {
-    User.find({})
-    .then( (users) => {
+app.get('/users', async (req,res) => {
+    
+    try {
+        const users = await User.find({})
         res.send(users)
-    })
-    .catch( (e) => {
-<<<<<<< HEAD
-        res.status(500).send()
-    })
-})
+    } catch (e) {
+        res.status(500).send(e)
+    }
 
-app.get('/users/:id', (req,res) => {
-    const _id = req.params.id
-    User.findById(_id)
-
-=======
-        res.send(e)
-    })
 })
 
 //By id
 
-app.get('/users/:id', (req,res) => {
+app.get('/users/:id', async (req,res) => {
     const _id = req.params.id
     
-    User.findById(_id)
->>>>>>> e5833206eccda716f535f74784f5a68511aa4fa9
-    .then( (user) => {
+    try {
+        const user = await User.findById(_id)
         if(!user) {
             res.status(404).send()
         }
-<<<<<<< HEAD
-        
-=======
->>>>>>> e5833206eccda716f535f74784f5a68511aa4fa9
+
         res.send(user)
-    })
-    .catch( (e) => {
+
+    } catch(e) {
         res.status(500).send(e)
-    })
+    }
+
+
+    // User.findById(_id)
+
+    // .then( (user) => {
+    //     if(!user) {
+    //         res.status(404).send()
+    //     }
+
+
+    //     res.send(user)
+    // })
+    // .catch( (e) => {
+    //     res.status(500).send(e)
+    // })
 })
 
-<<<<<<< HEAD
 
-//Tasks
-=======
+
 //Read Tasks
->>>>>>> e5833206eccda716f535f74784f5a68511aa4fa9
 
-app.get('/tasks', (req,res) => {
-    Task.find({})
-    .then( (tasks) => {
+
+app.get('/tasks', async (req,res) => {
+    
+    try {
+        const tasks = await Task.find({})
         res.send(tasks)
-    })
-    .catch( (e) => {
+    } catch (e) {
         res.status(500).send(e)
-    })
+    }
+    
+    // Task.find({})
+    // .then( (tasks) => {
+    //     res.send(tasks)
+    // })
+    // .catch( (e) => {
+    //     res.status(500).send(e)
+    // })
 })
 
-<<<<<<< HEAD
-app.get('/tasks/:id', (req,res) => {
-    const id = req.params.id
-    
-    Task.findById(id)
-    .then( (task) => {
-        if(!task) {
-            res.status(404).send()
-        }
 
-        res.status(200).send(task)
-=======
 //Read task by id
 
-app.get('/tasks/:id', (req,res) => {
+app.get('/tasks/:id', async (req,res) => {
     const _id = req.params.id
 
-    Task.findById(_id)
-    .then( (task) => {
+    try {
+        const task = await Task.findById(_id)
         if(!task) {
             res.status(404).send()
         }
+
         res.send(task)
->>>>>>> e5833206eccda716f535f74784f5a68511aa4fa9
-    })
-    .catch( (e) => {
+
+    } catch (e) {
         res.status(500).send(e)
-    })
+    }
+
+
+    // Task.findById(_id)
+    // .then( (task) => {
+    //     if(!task) {
+    //         res.status(404).send()
+    //     }
+    //     res.send(task)
+
+    // })
+    // .catch( (e) => {
+    //     res.status(500).send(e)
+    // })
 })
 
 
