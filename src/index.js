@@ -146,6 +146,33 @@ app.get('/tasks/:id', async (req,res) => {
     // })
 })
 
+//Update operations
+
+app.patch('/users/:id', async (req,res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name','email','password','age']
+    const isValidOperation = updates.every( (update) => allowedUpdates.includes(update) )
+
+
+
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+            new: true, 
+            runValidators: true
+        })
+
+        if (!user) {
+            res.status(404).send()
+        }
+
+        res.send(user)
+
+    } catch (e) {
+        res.status(500).send(e)
+    }
+
+})
+
 
 
 
