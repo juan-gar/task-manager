@@ -146,7 +146,51 @@ app.get('/tasks/:id', async (req,res) => {
     // })
 })
 
+//Update operations
 
+app.patch('/users/:id', async (req,res) => {
+    const _id = req.params.id
+
+     try {
+        const user = await User.findByIdAndUpdate(_id, {
+            $set: {
+                password: "pepinos"
+            },
+        },{
+            new: true
+        })
+
+        if(!user) {
+            res.status(404).send()
+        }
+        res.send(user)
+
+    } catch (e) {
+        res.status(500).send(e)
+    }
+
+})
+
+
+app.patch('/tasks/:id', (req,res) => {
+    const _id = req.params.id
+
+    try {
+        const task = Task.findByIdAndUpdate(_id, req.body,{
+            new: true
+        })
+
+        if(!task) {
+            res.status(404).send()
+        }
+
+        res.send(task)
+
+    } catch (e) {
+        res.status(500).send(e)
+    }
+
+})
 
 
 app.listen(port , () => {
